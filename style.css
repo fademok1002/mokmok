@@ -80,4 +80,18 @@ body {
     border: 3px solid #00ffe1;
     object-fit: cover;
   }
-  
+  .hero {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(to bottom, #111, #222);
+  color: white;
+}
+
+.hero-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid #0ff;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
