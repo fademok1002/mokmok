@@ -200,7 +200,99 @@
     <img src="imges/1.jpg" alt="صورتي" class="hero-img">
     <h1 class="typing">أدوات الأمن السيبراني</h1>
     <p>مرحباً بك في موقعي!</p>
- 
+    
+ <!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقييم الموقع</title>
+    <style>
+        .stars {
+            display: flex;
+            direction: row-reverse;
+            justify-content: flex-start;
+        }
+        .stars input {
+            display: none;
+        }
+        .stars label {
+            font-size: 30px;
+            color: gray;
+            cursor: pointer;
+        }
+        .stars input:checked ~ label {
+            color: gold;
+        }
+        .stars label:hover,
+        .stars label:hover ~ label {
+            color: gold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>التقييم</h2>
+<p>من فضلك، اختر عدد النجوم لتقييم الموقع:</p>
+
+<form id="rating-form">
+    <div class="stars">
+        <input type="radio" name="rating" id="star5" value="5"><label for="star5">&#9733;</label>
+        <input type="radio" name="rating" id="star4" value="4"><label for="star4">&#9733;</label>
+        <input type="radio" name="rating" id="star3" value="3"><label for="star3">&#9733;</label>
+        <input type="radio" name="rating" id="star2" value="2"><label for="star2">&#9733;</label>
+        <input type="radio" name="rating" id="star1" value="1"><label for="star1">&#9733;</label>
+    </div>
+
+    <textarea id="comment" placeholder="اكتب تعليقك هنا..." rows="4" cols="50"></textarea><br><br>
+    <button type="button" onclick="submitRating()">إرسال التقييم</button>
+</form>
+
+<h3>التقييمات السابقة</h3>
+<ul id="previous-ratings"></ul>
+
+<script>
+    // دالة لإرسال التقييم
+    function submitRating() {
+        const rating = document.querySelector('input[name="rating"]:checked');
+        const comment = document.getElementById('comment').value;
+        
+        if (rating) {
+            const ratingValue = rating.value;
+            const ratingText = comment || "لا يوجد تعليق";
+
+            // حفظ التقييم في localStorage
+            const previousRatings = JSON.parse(localStorage.getItem('ratings')) || [];
+            previousRatings.push({ rating: ratingValue, comment: ratingText });
+            localStorage.setItem('ratings', JSON.stringify(previousRatings));
+
+            // تحديث عرض التقييمات
+            displayRatings();
+        } else {
+            alert("يرجى اختيار عدد النجوم.");
+        }
+    }
+
+    // دالة لعرض التقييمات السابقة
+    function displayRatings() {
+        const previousRatings = JSON.parse(localStorage.getItem('ratings')) || [];
+        const ratingsList = document.getElementById('previous-ratings');
+        ratingsList.innerHTML = '';
+
+        previousRatings.forEach((rating) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `التقييم: ${rating.rating} نجوم - تعليق: ${rating.comment}`;
+            ratingsList.appendChild(listItem);
+        });
+    }
+
+    // عرض التقييمات السابقة عند تحميل الصفحة
+    window.onload = displayRatings;
+</script>
+
+</body>
+</html>
+
 
 
 
