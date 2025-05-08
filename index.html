@@ -272,5 +272,65 @@
     </script>
 
 </body>
+</html><!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام التعليقات باستخدام ملف نصي</title>
+</head>
+<body>
+
+    <h1>نظام التعليقات</h1>
+
+    <form id="commentForm">
+        <input type="text" id="name" placeholder="اسمك" required>
+        <textarea id="comment" placeholder="اكتب تعليقك" required></textarea><br><br>
+        <button type="submit">أضف تعليق</button>
+    </form>
+
+    <h2>التعليقات:</h2>
+    <div id="commentsList"></div>
+
+    <script>
+        // إرسال التعليق إلى ملف PHP باستخدام AJAX
+        document.getElementById('commentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const comment = document.getElementById('comment').value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'save_comment.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    loadComments(); // تحديث التعليقات بعد الإرسال
+                }
+            };
+            xhr.send('name=' + encodeURIComponent(name) + '&comment=' + encodeURIComponent(comment));
+        });
+
+        // تحميل التعليقات من الملف النصي
+        function loadComments() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'load_comments.php', true);
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    document.getElementById('commentsList').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        // تحميل التعليقات عند تحميل الصفحة
+        window.onload = function() {
+            loadComments();
+        };
+    </script>
+
+</body>
 </html>
+
+
 
