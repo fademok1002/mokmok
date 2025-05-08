@@ -1,17 +1,17 @@
-
 <?php
-// التحقق إذا تم إرسال البيانات عبر POST
-if (isset($_POST['name']) && isset($_POST['comment'])) {
-    $name = htmlspecialchars($_POST['name']);
-    $comment = htmlspecialchars($_POST['comment']);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $comment = $_POST['comment'];
 
-    // فتح أو إنشاء الملف النصي
+    // فتح ملف التعليقات وإضافة التعليق الجديد
     $file = fopen("comments.txt", "a");
-
-    // إضافة التعليق إلى الملف النصي مع اسم المرسل
-    fwrite($file, "<strong>" . $name . ":</strong><p>" . $comment . "</p><hr>\n");
-
-    // غلق الملف بعد الكتابة
-    fclose($file);
+    if ($file) {
+        // إضافة التعليق إلى الملف بتنسيق HTML
+        fwrite($file, "<strong>" . htmlspecialchars($name) . ":</strong><p>" . htmlspecialchars($comment) . "</p><hr>\n");
+        fclose($file);
+        echo "تم إضافة التعليق بنجاح!";
+    } else {
+        echo "حدث خطأ أثناء إضافة التعليق!";
+    }
 }
 ?>
